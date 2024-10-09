@@ -9,9 +9,9 @@ pub fn main() {
   dot.new()
   dot.load_default()
 
-  let table_name = env.get_string_or("TABLE_NAME", "my app name")
-  let supabase_key = env.get_string_or("SUPABASE_KEY", "my app name")
-  let supabase_url = env.get_string_or("SUPABASE_URL", "my app name")
+  let table_name = env.get_string_or("TABLE_NAME", "")
+  let supabase_key = env.get_string_or("SUPABASE_KEY", "")
+  let supabase_url = env.get_string_or("SUPABASE_URL", "")
 
   let assert Ok(request) =
     request.to(
