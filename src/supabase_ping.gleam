@@ -1,40 +1,30 @@
-import dotenv
-import gleam/erlang/os
+import dot_env as dot
+import dot_env/env
+import gleam/hackney
 import gleam/http
-import gleam/option.{None, Option, Some}
-import gleam/result.{Error, Ok, Result}
+import gleam/http/request
+import gleam/result.{try}
 
-pub fn ping_supabase() -> Result(String, String) {
-  dotenv.config_with(".env")
-  // this should load .env file
-  let supabase_url = os.get_env("SUPABASE_URL")
-  let supabase_key = os.get_env("SUPABASE_KEY")
-  let supabase_table = os.get_env("SUPABASE_TABLE")
-  let headers =
-    http.headers([
-      "apikey",
-      supabase_key,
-      "Authorization",
-      "Bearer " <> supabase_key,
-    ])
+pub fn main() {
+  dot.new()
+  dot.load_default()
 
-  let request =
-    http.get(
-      supabase_url <> "/rest/v1/" <> supabase_table <> "?select=id&limit=1",
-      headers,
+  let table_name = env.get_string_or("TABLE_NAME", "my app name")
+  let supabase_key = env.get_string_or("SUPABASE_KEY", "my app name")
+  let supabase_url = env.get_string_or("SUPABASE_URL", "my app name")
+
+  let assert Ok(request) =
+    request.to(
+      supabase_url <> "/rest/v1/" <> table_name <> "?select=id&limit=1",
     )
 
-  case http.send(request) {
-    Ok(response) ->
-      case response.status == 200 {
-        True -> Ok("Ping to Supabase successful!")
-        False ->
-          Error(
-            "Failed to ping Supabase: Status code "
-            <> int_to_string(response.status),
-          )
-      }
+  use response <- try(
+    request
+    |> request.set_header("authorization", "Bearer " <> supabase_key)
+    |> request.set_header("apikey", supabase_key)
+    |> request.set_method(http.Post)
+    |> hackney.send,
+  )
 
-    Error(e) -> Error("Error sending request: " <> e)
-  }
+  Ok(response)
 }
