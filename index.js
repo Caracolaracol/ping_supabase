@@ -3,12 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 // Supabase configuration using environment variables
 
 
-async function insertRandomNumber(env) {
+async function pingGarden(env) {
     const supabaseUrl = env.SUPABASE_URL;
     const supabaseAnonKey = env.SUPABASE_KEY; // Set in Cloudflare Workers environment variables
     
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    const randomNumber = Math.floor(Math.random() * 1000);
 
     const { data, error } = await supabase
         .from('garden').select()
@@ -23,10 +22,18 @@ async function insertRandomNumber(env) {
     } else {
         console.log('No data returned, but no error encountered. Check table configuration.');
     }
+    return new Response("Hello from Gleam!", {
+        headers: { "Content-Type": "text/plain" },
+      });
 }
 
 
 
 addEventListener('scheduled', event => {
-    event.waitUntil(insertRandomNumber(event.env));
+    event.waitUntil(pingGarden(event.env));
   });
+
+  addEventListener("fetch", event => {
+    event.respondWith(pingGarden(event));
+  });
+  
