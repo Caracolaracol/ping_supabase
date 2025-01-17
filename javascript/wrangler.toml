@@ -1,4 +1,5 @@
 name = "gleam-cron-worker"
+main = "./supabase_ping/gleam.main.mjs
 type = "javascript" # Usaremos el archivo JS compilado
 workers_dev = true
 compatibility_date = "2023-01-01"
