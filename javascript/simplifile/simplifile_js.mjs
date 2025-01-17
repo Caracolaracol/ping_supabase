@@ -1,6 +1,6 @@
 // @ts-check
 
-import fs from "node:fs";
+import fs from "fs";
 import path from "node:path";
 import process from "node:process";
 import { BitArray, Ok, Error as GError, toList } from "./gleam.mjs";
