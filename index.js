@@ -1,13 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase configuration using environment variables
-const supabaseUrl = SUPABASE_URL;
-const supabaseAnonKey = SUPABASE_KEY; // Set in Cloudflare Workers environment variables
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 
 async function insertRandomNumber() {
+    const supabaseUrl = env.SUPABASE_URL;
+    const supabaseAnonKey = env.SUPABASE_KEY; // Set in Cloudflare Workers environment variables
+    
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
     const randomNumber = Math.floor(Math.random() * 1000);
 
     const { data, error } = await supabase
@@ -27,5 +27,8 @@ async function insertRandomNumber() {
     }
 }
 
-insertRandomNumber();
 
+
+addEventListener('scheduled', event => {
+    event.waitUntil(insertRandomNumber(event.env));
+  });
