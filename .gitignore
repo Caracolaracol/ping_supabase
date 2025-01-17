@@ -4,4 +4,3 @@
 erl_crash.dump
 .env
 **/.DS_Store
-/node_modules
