@@ -28,7 +28,13 @@ async function pingGarden(env) {
 }
 
 
-
+export default {
+    async scheduled(event, env, ctx) {
+      console.log("cron processed");
+      event.waitUntil(pingGarden(env));
+    },
+  };
+  
 addEventListener('scheduled', event => {
     event.waitUntil(pingGarden(event.env));
   });
