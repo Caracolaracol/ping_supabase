@@ -11,9 +11,7 @@ async function insertRandomNumber() {
     const randomNumber = Math.floor(Math.random() * 1000);
 
     const { data, error } = await supabase
-        .from('random_numbers')
-        .insert([{ number: randomNumber }])
-        .select();
+        .from('garden').select()
 
     if (error) {
         console.error('Error inserting data:', error);
