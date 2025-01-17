@@ -1,0 +1,7 @@
+name = "gleam-cron-worker"
+type = "javascript" # Usaremos el archivo JS compilado
+workers_dev = true
+compatibility_date = "2023-01-01"
+
+[triggers]
+crons = ["0 9 * * 1,4"] # Cron job: Lunes y jueves a las 9:00 AM UTC
