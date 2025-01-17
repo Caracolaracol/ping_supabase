@@ -34,6 +34,7 @@ export default {
       event.waitUntil(pingGarden(env));
     },
   };
+
   
 addEventListener('scheduled', event => {
     event.waitUntil(pingGarden(event.env));
