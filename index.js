@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 // Supabase configuration using environment variables
 
 
-async function insertRandomNumber() {
+async function insertRandomNumber(env) {
     const supabaseUrl = env.SUPABASE_URL;
     const supabaseAnonKey = env.SUPABASE_KEY; // Set in Cloudflare Workers environment variables
     
