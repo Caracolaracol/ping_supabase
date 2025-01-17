@@ -1,4 +1,4 @@
-name = "gleam-cron-worker"
+name = "winter-credit-2442"
 main = "./supabase_ping/gleam.main.mjs"
 type = "webpack" # Usaremos el archivo JS compilado
 workers_dev = true
