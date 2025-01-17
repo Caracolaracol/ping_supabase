@@ -9,7 +9,7 @@ import * as $result from "../gleam_stdlib/gleam/result.mjs";
 import { try$ } from "../gleam_stdlib/gleam/result.mjs";
 import { Ok } from "./gleam.mjs";
 
-export function main() {
+export default function main() {
   $dot.new$();
   $dot.load_default();
   let table_name = $env.get_string_or("TABLE_NAME", "");
