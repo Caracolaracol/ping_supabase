@@ -1,10 +1,10 @@
 import dot_env as dot
 import dot_env/env
-import gleam/erlang
-import gleam/hackney
-import gleam/http
+import gleam/fetch
 import gleam/http/request
+import gleam/http/response
 import gleam/io
+import gleam/javascript/promise
 import gleam/result.{try}
 
 pub fn main() {
@@ -15,16 +15,29 @@ pub fn main() {
   let supabase_key = env.get_string_or("SUPABASE_KEY", "")
   let supabase_url = env.get_string_or("SUPABASE_URL", "")
 
-  let assert Ok(request) =
-    request.to(supabase_url <> "/rest/v1/" <> table_name <> "?select=*")
+  let url = supabase_url <> "/rest/v1/" <> table_name <> "?select=*"
 
-  use response <- try(
-    request
-    |> request.set_header("authorization", "Bearer " <> supabase_key)
-    |> request.set_header("apikey", supabase_key)
-    |> request.set_method(http.Get)
-    |> hackney.send,
-  )
-  io.println(response.body)
-  Ok(response)
+  let req = case request.to(url) {
+    Ok(req) -> req
+    Error(e) -> {
+      io.println("Error creating request")
+      // Return a default request or handle the error appropriately
+      request.new()
+    }
+  }
+  let req = request.set_header(req, "apikey", supabase_key)
+
+  // Send the HTTP request to the server
+  use resp <- promise.try_await(fetch.send(req))
+  use resp <- promise.try_await(fetch.read_text_body(resp))
+
+  // We get a response record back
+
+  // -> 200
+  io.println(resp.body)
+
+  let _ = response.get_header(resp, "content-type")
+  // -> Ok("text/html; charset=UTF-8")
+
+  promise.resolve(Ok(Nil))
 }
