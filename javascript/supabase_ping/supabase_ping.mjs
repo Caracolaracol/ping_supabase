@@ -36,7 +36,6 @@ export function main() {
         (resp) => {
           $io.println(resp.body);
           let $ = $response.get_header(resp, "content-type");
-          
           return $promise.resolve(new Ok(undefined));
         },
       );
