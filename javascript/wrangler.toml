@@ -1,6 +1,6 @@
 name = "winter-credit-2442"
 main = "./supabase_ping/supabase_ping.mjs"
-type = "webpack" # Usaremos el archivo JS compilado
+type = "javascript" # Usaremos el archivo JS compilado
 workers_dev = true
 compatibility_date = "2023-01-01"
 compatibility_flags = ["nodejs_compat"]
