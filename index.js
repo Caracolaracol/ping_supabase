@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase configuration using environment variables
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_KEY; // Set in Cloudflare Workers environment variables
+const supabaseUrl = SUPABASE_URL;
+const supabaseAnonKey = SUPABASE_KEY; // Set in Cloudflare Workers environment variables
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
