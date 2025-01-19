@@ -9,8 +9,7 @@ async function pingGarden(env) {
     
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-    const { data, error } = await supabase
-        .from('garden').select()
+    const { data, error } = await supabase.schema('gardens').from('gardens').select()
 
     if (error) {
         console.error('Error inserting data:', error);
