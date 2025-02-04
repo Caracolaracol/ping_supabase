@@ -7,17 +7,18 @@ async function pingGarden(env) {
     const supabaseUrl = env.SUPABASE_URL;
     const supabaseAnonKey = env.SUPABASE_KEY; // Set in Cloudflare Workers environment variables
     
+    console.log(supabaseUrl);
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
     const { data, error } = await supabase.schema('gardens').from('gardens').select()
 
     if (error) {
-        console.error('Error inserting data:', error);
+        console.error('Error data:', error);
         return;
     }
 
     if (data) {
-        console.log('Inserted data:', data);
+        console.log(' data:', data);
     } else {
         console.log('No data returned, but no error encountered. Check table configuration.');
     }
