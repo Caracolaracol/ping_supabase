@@ -7,24 +7,31 @@ async function pingGarden(env) {
     const supabaseUrl = env.SUPABASE_URL;
     const supabaseAnonKey = env.SUPABASE_KEY; // Set in Cloudflare Workers environment variables
     
-    console.log(supabaseUrl);
+  if(supabaseUrl){
+
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
+    
     const { data, error } = await supabase.schema('gardens').from('gardens').select()
-
+    
     if (error) {
-        console.error('Error data:', error);
-        return;
+      console.error('Error data:', error);
+      return;
     }
-
+    
     if (data) {
-        console.log(' data:', data);
+      console.log(' data:', data);
     } else {
-        console.log('No data returned, but no error encountered. Check table configuration.');
+      console.log('No data returned, but no error encountered. Check table configuration.');
     }
     return new Response("Hello from Gleam!", {
-        headers: { "Content-Type": "text/plain" },
-      });
+      headers: { "Content-Type": "text/plain" },
+    });
+  } else {
+    console.log("Supabase URL not set in environment variables");
+    return new Response("Supabase URL not set in environment variables", {
+      headers: { "Content-Type": "text/plain" },
+    });
+  }
 }
 
 
